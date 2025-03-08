@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Change this to your default branch if different
+      - main
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
 
       - name: Decompress GZip file
         run: |
-          gzip -d satnotcanvas/godotapk/Exportgodotlab.wasm.gz
+          gzip -d godotapk/Exportgodotlab.wasm.gz
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -23,7 +23,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: satnotcanvas/godotapk
+          path: godotapk
 
       - name: Deploy to GitHub Pages
         id: deployment
