@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
+#  push:      # Trigger when pushing to the main branch
+#    branches:# Trigger when pushing to the main branch
+#      - main # Trigger when pushing to the main branch
   workflow_dispatch:
 
 permissions:
