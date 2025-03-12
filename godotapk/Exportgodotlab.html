@@ -138,6 +138,11 @@
 
 	<script type='text/javascript' src='Exportgodotlab.js'></script>
 	<script type='text/javascript'>//<![CDATA[
+		if (typeof PATH === 'undefined') {
+			console.error("PATH is not defined!");
+		} else {
+			console.log("PATH is defined!");
+		}
 
 		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Exportgodotlab","experimentalVK":false,"fileSizes":{"Exportgodotlab.pck":20256,"Exportgodotlab.wasm":26059464},"focusCanvas":true,"wasm":"wasm1/Exportgodotlab.wasm","gdnativeLibs":[]};
 		var engine = new Engine(GODOT_CONFIG);
