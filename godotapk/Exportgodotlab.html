@@ -4,34 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Godot HTML5 Game</title>
-    <script src="godotapk/Exportgodotlab.js"></script> <!-- Load the engine -->
-    <script>
-        // Ensure window is available before modifying global scope
-        if (typeof window !== 'undefined') {
-            window.PATH = PATH ?? window.PATH;
-            window.Engine = Engine ?? window.Engine;
+    <script src="./godotapk/Exportgodotlab.js"></script> <!-- Load the engine -->
+<script>
+    // Define PATH first
+    var PATH = {
+        splitPath: function(filename) {
+            var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+            return splitPathRe.exec(filename).slice(1);
+        },
+    };
+
+    // Define Engine first
+    const Engine = (function () {
+        const preloader = new Preloader();
+        let loadPromise = null;
+        let loadPath = '';
+        let initPromise = null;
+
+        function Engine(initConfig) {
+            this.config = new InternalConfig(initConfig);
+            this.rtenv = null;
         }
 
-        // Function to load .wasm.gz file dynamically from GitHub
-        function loadWasmFile() {
-            const wasmUrl = 'https://raw.githubusercontent.com/minec-c/satnotcanvas/main/wasm1/Exportgodotlab.wasm.gz';
-            // Use the fetch API to load the .wasm.gz file
-            fetch(wasmUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    // Handle the .wasm file here (e.g., decompress or pass to the engine)
-                    console.log('WASM file loaded successfully');
-                    // Example: You can now use the WASM file to initialize the engine
-                    Engine.load(wasmUrl); // Example, adjust as needed
-                })
-                .catch(error => {
-                    console.error('Error loading WASM file:', error);
-                });
-        }
+        Engine.load = function (basePath, size) {
+            if (loadPromise == null) {
+                loadPath = basePath;
+                loadPromise = preloader.loadPromise(`${loadPath}.wasm`, size, true);
+                requestAnimationFrame(preloader.animateProgress);
+            }
+            return loadPromise;
+        };
 
-        // Start the loading of the WASM file
-        loadWasmFile();
-    </script>
+        Engine.unload = function () {
+            loadPromise = null;
+        };
+
+        Engine.isWebGLAvailable = function (majorVersion = 1) {
+            try {
+                return !!document.createElement('canvas').getContext(['webgl', 'webgl2'][majorVersion - 1]);
+            } catch (e) { /* Not available */ }
+            return false;
+        };
+
+        return Engine;
+    })();
+
+    // Expose globally (after defining PATH and Engine)
+    if (typeof window !== 'undefined') {
+        window.PATH = PATH ?? window.PATH;
+        window.Engine = Engine ?? window.Engine;
+    }
+</script>
 </head>
 <body>
     <h1>My Godot HTML5 Game</h1>
