@@ -4,60 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Godot HTML5 Game</title>
-    <script src="./godotapk/Exportgodotlab.js"></script> <!-- Load the engine -->
-<script>
-    // Define PATH first
-    var PATH = {
-        splitPath: function(filename) {
-            var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-            return splitPathRe.exec(filename).slice(1);
-        },
-    };
 
-    // Define Engine first
-    const Engine = (function () {
-        const preloader = new Preloader();
-        let loadPromise = null;
-        let loadPath = '';
-        let initPromise = null;
+    <!--  Load the engine (update path to actual file location) -->
+    <script src="./godotapk/engine.js"></script> 
 
-        function Engine(initConfig) {
-            this.config = new InternalConfig(initConfig);
-            this.rtenv = null;
+    <script>
+        //  Define PATH first
+        var PATH = {
+            splitPath: function(filename) {
+                var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+                return splitPathRe.exec(filename).slice(1);
+            },
+        };
+
+        //  Define Engine first
+        const Engine = (function () {
+            const preloader = new Preloader(); // Ensure Preloader is defined by Godot export
+            let loadPromise = null;
+            let loadPath = '';
+            let initPromise = null;
+
+            function Engine(initConfig) {
+                this.config = new InternalConfig(initConfig); // Ensure InternalConfig is defined by Godot export
+                this.rtenv = null;
+            }
+
+            Engine.load = function (basePath, size) {
+                if (loadPromise == null) {
+                    loadPath = basePath;
+                    loadPromise = preloader.loadPromise(`${loadPath}.wasm`, size, true);
+                    requestAnimationFrame(preloader.animateProgress);
+                }
+                return loadPromise;
+            };
+
+            Engine.unload = function () {
+                loadPromise = null;
+            };
+
+            Engine.isWebGLAvailable = function (majorVersion = 1) {
+                try {
+                    return !!document.createElement('canvas').getContext(['webgl', 'webgl2'][majorVersion - 1]);
+                } catch (e) { /* Not available */ }
+                return false;
+            };
+
+            return Engine;
+        })();
+
+        //  Expose globally (after defining PATH and Engine)
+        if (typeof window !== 'undefined') {
+            window.PATH = PATH ?? window.PATH;
+            window.Engine = Engine ?? window.Engine;
         }
 
-        Engine.load = function (basePath, size) {
-            if (loadPromise == null) {
-                loadPath = basePath;
-                loadPromise = preloader.loadPromise(`${loadPath}.wasm`, size, true);
-                requestAnimationFrame(preloader.animateProgress);
+        //  Load the game when the page loads
+        window.addEventListener('load', () => {
+            const wasmUrl = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+            if (Engine && Engine.isWebGLAvailable()) {
+                Engine.load(wasmUrl);
+                console.log('Engine loaded successfully');
+            } else {
+                console.error('WebGL is not supported');
             }
-            return loadPromise;
-        };
-
-        Engine.unload = function () {
-            loadPromise = null;
-        };
-
-        Engine.isWebGLAvailable = function (majorVersion = 1) {
-            try {
-                return !!document.createElement('canvas').getContext(['webgl', 'webgl2'][majorVersion - 1]);
-            } catch (e) { /* Not available */ }
-            return false;
-        };
-
-        return Engine;
-    })();
-
-    // Expose globally (after defining PATH and Engine)
-    if (typeof window !== 'undefined') {
-        window.PATH = PATH ?? window.PATH;
-        window.Engine = Engine ?? window.Engine;
-    }
-</script>
+        });
+    </script>
 </head>
 <body>
     <h1>My Godot HTML5 Game</h1>
-    <div id="game-container"></div> <!-- The container for the game -->
+    <div id="game-container"></div> <!--  The container for the game -->
 </body>
 </html>
