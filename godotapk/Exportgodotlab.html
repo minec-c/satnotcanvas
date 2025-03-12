@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Godot HTML5 Game</title>
-
-    <!--  Load the engine script (defines Engine and Preloader) -->
-    <script src="Exportgodotlab.js"></script>
-
-    <script>
-        //  Define PATH first
-        var PATH = {
-            splitPath: function(filename) {
-                var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-                return splitPathRe.exec(filename).slice(1);
-            },
-        };
-
-        //  Expose PATH and Engine globally (only if defined)
-        if (typeof window !== 'undefined') {
-            window.PATH = PATH ?? window.PATH;
-            if (typeof Engine !== 'undefined') {
-                window.Engine = Engine ?? window.Engine;
-            } else {
-                console.error('Engine is not defined. Make sure Exportgodotlab.js is loading correctly.');
-            }
-        }
-
-        //  Load the game on page load
-        window.addEventListener('load', () => {
-            const wasmUrl = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab';//Exportgodotlab.wasm WILL OUTPUT Exportgodotlab.wasm.wasm BECAUSE Exportgodotlab.js
-            if (window.Engine && window.Engine.isWebGLAvailable()) {
-                window.Engine.load(wasmUrl);
-                console.log('Engine loaded successfully');
-            } else {
-                console.error('WebGL is not supported or Engine is not available');
-            }
-        });
-    </script>
+    <script src="Exportgodotlab.js"></script> <!-- Load the engine -->
 </head>
 <body>
     <h1>My Godot HTML5 Game</h1>
-    <div id="game-container"></div>
+    <div id="game-container"></div> <!-- The container for the game -->
+
+    <script>
+        const wasmPath = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+        const pckPath = 'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck';
+        
+        // Create the engine instance
+        const engine = new Engine();
+
+        Promise.all([
+            // Load the engine module (WASM)
+            engine.init(wasmPath),
+            // Preload the PCK file concurrently
+            engine.preloadFile(pckPath)
+        ])
+        .then(() => {
+            console.log('Engine initialized and resources preloaded successfully.');
+            
+            // Start the engine with the main PCK
+            return engine.start({ args: ['--main-pack', pckPath] });
+        })
+        .then(() => {
+            console.log('Engine has started!');
+        })
+        .catch((error) => {
+            console.error('Error during engine startup:', error);
+        });
+    </script>
 </body>
 </html>
