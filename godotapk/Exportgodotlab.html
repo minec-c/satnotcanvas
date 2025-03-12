@@ -29,7 +29,7 @@
 
         //  Load the game on page load
         window.addEventListener('load', () => {
-            const wasmUrl = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+            const wasmUrl = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab';//Exportgodotlab.wasm WILL OUTPUT Exportgodotlab.wasm.wasm BECAUSE Exportgodotlab.js
             if (window.Engine && window.Engine.isWebGLAvailable()) {
                 window.Engine.load(wasmUrl);
                 console.log('Engine loaded successfully');
