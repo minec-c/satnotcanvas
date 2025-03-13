@@ -11,10 +11,19 @@
     <div id="game-container"></div> <!-- The container for the game -->
 
     <script>
-          var config = {
-                        wasmFile: '../wasm1/Exportgodotlab.wasm',
-                        mainPack: 'Exportgodotlab.pck',
-                      };
+            const GODOT_CONFIG = {
+              "args": [],
+              "canvasResizePolicy": 2,
+              "executable": "Exportgodotlab",
+              "experimentalVK": false,
+              "fileSizes": {
+                "Exportgodotlab.pck": 15168,
+                "Exportgodotlab.wasm": 26059464
+              },
+              "focusCanvas": true,
+              "gdnativeLibs": [],
+              "wasmFile": "../wasm1/Exportgodotlab.wasm" // Add this line
+            };
 
           var engine = new Engine(config);
           engine.startGame();
