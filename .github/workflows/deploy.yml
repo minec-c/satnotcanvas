@@ -21,8 +21,10 @@ jobs:
 
       - name: Decompress GZip file
         run: |
-          gzip -d wasm1/Exportgodotlab.wasm.gz
+          gzip -d godotapk/Exportgodotlab.wasm.gz
           gzip -d godotapk/Exportgodotlab.pck.gz
+      #    gzip -d wasm1/Exportgodotlab.wasm.gz
+      #    gzip -d godotapk/Exportgodotlab.pck.gz
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
