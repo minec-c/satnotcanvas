@@ -45,7 +45,7 @@
                 // ✅ Start the engine after files are preloaded
                 engine.start({
                     canvas: document.getElementById('canvas'),
-                    basePath: '/satnotcanvas/godotapk/', // ✅ Set the base path to 'godotapk'
+                    basePath: '.', // ✅ Set the base path to 'godotapk'
                     onProgress: (current, total) => {
                         console.log(`Loading: ${current}/${total}`);
                     }
