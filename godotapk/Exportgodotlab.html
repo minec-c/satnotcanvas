@@ -35,7 +35,7 @@
         };
 
         //  Set the correct paths to the .wasm and .pck files
-        const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm'; //  Path to .wasm in 'wasm1' folder
+        const myWasm = 'wasm1/Exportgodotlab.wasm'; 		//'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm'; //  Path to .wasm in 'wasm1' folder
         const myPck = './Exportgodotlab.pck'; //  Path to .pck in 'godotapk' folder
 
         window.addEventListener('load', () => {
@@ -58,7 +58,7 @@
                 //  Start the engine after files are preloaded
                 engine.start({
                     canvas: document.getElementById('canvas'),
-                    basePath: '.', //  Set the base path to 'godotapk'
+                    basePath: 'https://minec-c.github.io/satnotcanvas/', //  Set the base path to 'godotapk'
                     onProgress: (current, total) => {
                         console.log(`Loading: ${current}/${total}`);
                     }
