@@ -11,30 +11,37 @@
     <div id="game-container"></div> <!-- The container for the game -->
 
     <script>
-        const wasmPath = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
-        const pckPath = 'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck';
-        
-        // Create the engine instance
-        const engine = new Engine();
+          var config = {
+                        wasmFile: '../wasm1/your_game.wasm',
+                        mainPack: 'your_game.pck',
+                      };
 
-        Promise.all([
-            // Load the engine module (WASM)
-            engine.init(wasmPath),
-            // Preload the PCK file concurrently
-            engine.preloadFile(pckPath)
-        ])
-        .then(() => {
-            console.log('Engine initialized and resources preloaded successfully.');
-            
-            // Start the engine with the main PCK
-            return engine.start({ args: ['--main-pack', pckPath] });
-        })
-        .then(() => {
-            console.log('Engine has started!');
-        })
-        .catch((error) => {
-            console.error('Error during engine startup:', error);
-        });
+          var engine = new Engine(config);
+          engine.startGame();
+//        const wasmPath = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+//        const pckPath = 'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck';
+//        
+//        // Create the engine instance
+//        const engine = new Engine();
+//
+//        Promise.all([
+//            // Load the engine module (WASM)
+//            engine.init(wasmPath),
+//            // Preload the PCK file concurrently
+//            engine.preloadFile(pckPath)
+//        ])
+//        .then(() => {
+//            console.log('Engine initialized and resources preloaded successfully.');
+//            
+//            // Start the engine with the main PCK
+//            return engine.start({ args: ['--main-pack', pckPath] });
+//        })
+//        .then(() => {
+//            console.log('Engine has started!');
+//        })
+//        .catch((error) => {
+//            console.error('Error during engine startup:', error);
+//        });
     </script>
 </body>
 </html>
