@@ -1,0 +1,54 @@
+<script type="text/javascript" src="Exportgodotlab.js"></script>
+
+<script type="text/javascript">
+    const GODOT_CONFIG = {
+        "args": [],
+        "canvasResizePolicy": 2,
+        "executable": "Exportgodotlab",
+        "experimentalVK": false,
+        "fileSizes": {
+            "Exportgodotlab.pck": 29792,
+            "Exportgodotlab.wasm": 26059464
+        },
+        "focusCanvas": true,
+        "gdnativeLibs": []
+    };
+
+    window.addEventListener('load', () => {
+        // Create canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        document.body.appendChild(canvas);
+
+        // ✅ Override .wasm and .pck paths manually:
+        const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+        const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck';
+
+        var engine = new Engine(GODOT_CONFIG);
+
+        // ✅ Preload .wasm and .pck using specific paths
+        Promise.all([
+            engine.preloadFile(myWasm, 'Exportgodotlab.wasm'),
+            engine.preloadFile(myPck, 'Exportgodotlab.pck')
+        ])
+        .then(() => {
+            console.log("Files preloaded successfully");
+
+            // ✅ Set basePath only for loading assets (like textures):
+            engine.start({
+                canvas: document.getElementById('canvas'),
+                basePath: 'https://minec-c.github.io/satnotcanvas/godotapk/', // ✅ Correct base path for textures and assets
+                onProgress: (current, total) => {
+                    console.log(`Loading: ${current}/${total}`);
+                }
+            }).then(() => {
+                console.log("Engine started successfully!");
+            }).catch((err) => {
+                console.error("Failed to start engine:", err);
+            });
+        })
+        .catch((err) => {
+            console.error("Failed to preload files:", err);
+        });
+    });
+</script>
