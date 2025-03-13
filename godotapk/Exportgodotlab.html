@@ -47,7 +47,7 @@
 
             // Preload the .wasm and .pck files
             Promise.all([
-                engine.preloadFile('./wasm1/Exportgodotlab.wasm', 'Exportgodotlab.wasm'),
+                engine.preloadFile('../wasm1/Exportgodotlab.wasm', 'Exportgodotlab.wasm'),
                 engine.preloadFile('Exportgodotlab.pck', 'Exportgodotlab.pck')
             ])
             .then(() => {
