@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>My Godot Project</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    <!-- Load the generated engine JS file -->
+    <script type="text/javascript" src="Exportgodotlab.js"></script>
+
+    <script type="text/javascript">
+        // Define GODOT_CONFIG with file sizes and settings
+        const GODOT_CONFIG = {
+            "args": [],
+            "canvasResizePolicy": 2,
+            "executable": "Exportgodotlab",
+            "experimentalVK": false,
+            "fileSizes": {
+                "Exportgodotlab.pck": 29792, // Adjust size as needed
+                "Exportgodotlab.wasm": 26059464 // Adjust size as needed
+            },
+            "focusCanvas": true,
+            "gdnativeLibs": []
+        };
+
+        // ✅ Set the correct paths to the .wasm and .pck files
+        const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm'; // ✅ Path to .wasm in 'wasm1' folder
+        const myPck = './Exportgodotlab.pck'; // ✅ Path to .pck in 'godotapk' folder
+
+        window.addEventListener('load', () => {
+            // Create canvas
+            var canvas = document.createElement('canvas');
+            canvas.id = 'canvas';
+            document.body.appendChild(canvas);
+
+            // Initialize the engine with GODOT_CONFIG
+            var engine = new Engine(GODOT_CONFIG);
+
+            // ✅ Preload the .wasm and .pck files using the defined paths
+            Promise.all([
+                engine.preloadFile(myWasm),//, 'Exportgodotlab.wasm'),
+                engine.preloadFile(myPck)//, 'Exportgodotlab.pck')
+            ])
+            .then(() => {
+                console.log("Files preloaded successfully");
+
+                // ✅ Start the engine after files are preloaded
+                engine.start({
+                    canvas: document.getElementById('canvas'),
+                    basePath: '.', // ✅ Set the base path to 'godotapk'
+                    onProgress: (current, total) => {
+                        console.log(`Loading: ${current}/${total}`);
+                    }
+                }).then(() => {
+                    console.log("Engine started successfully!");
+                }).catch((err) => {
+                    console.error("Failed to start engine:", err);
+                });
+            })
+            .catch((err) => {
+                console.error("Failed to preload files:", err);
+            });
+        });
+    </script>
+</body>
+</html>
