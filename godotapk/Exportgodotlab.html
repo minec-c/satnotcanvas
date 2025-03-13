@@ -1,0 +1,55 @@
+<script type="text/javascript" src="./godotapk/Exportgodotlab.js"></script>
+
+<script type="text/javascript">
+    const GODOT_CONFIG = {
+        "args": [],
+        "canvasResizePolicy": 2,
+        "executable": "Exportgodotlab",
+        "experimentalVK": false,
+        "fileSizes": {
+            "Exportgodotlab.pck": 29792,
+            "Exportgodotlab.wasm": 26059464
+        },
+        "focusCanvas": true,
+        "gdnativeLibs": []
+    };
+
+    window.addEventListener('load', () => {
+        // Create canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        document.body.appendChild(canvas);
+
+        // Initialize the engine
+        var engine = new Engine(GODOT_CONFIG);
+
+        // ✅ Override .wasm and .pck paths manually:
+        const myWasm = './wasm1/Exportgodotlab.wasm';
+        const myPck = './godotapk/Exportgodotlab.pck';
+
+        // ✅ Preload .wasm and .pck using specific paths
+        Promise.all([
+            engine.preloadFile(myWasm, 'Exportgodotlab.wasm'),
+            engine.preloadFile(myPck, 'Exportgodotlab.pck')
+        ])
+        .then(() => {
+            console.log("Files preloaded successfully");
+
+            // ✅ Set basePath only for loading assets (like textures):
+            engine.start({
+                canvas: document.getElementById('canvas'),
+                basePath: '/satnotcanvas/godotapk/', // ✅ Only for PCK and other assets
+                onProgress: (current, total) => {
+                    console.log(`Loading: ${current}/${total}`);
+                }
+            }).then(() => {
+                console.log("Engine started successfully!");
+            }).catch((err) => {
+                console.error("Failed to start engine:", err);
+            });
+        })
+        .catch((err) => {
+            console.error("Failed to preload files:", err);
+        });
+    });
+</script>
