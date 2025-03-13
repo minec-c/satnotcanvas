@@ -25,7 +25,8 @@
               "wasmFile": "../wasm1/Exportgodotlab.wasm" // Add this line
             };
 
-          var engine = new Engine(config);
+          //var engine = new Engine(config); ////WRONG
+            var engine = new Engine(GODOT_CONFIG);
           engine.startGame();
 //        const wasmPath = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
 //        const pckPath = 'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck';
