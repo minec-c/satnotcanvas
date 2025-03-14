@@ -150,7 +150,7 @@
 //    'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck'	]);
     const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
     const myPck = "https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck";//'Exportgodotlab.pck';
-		//var engine = new Engine(GODOT_CONFIG);
+		var engine = new Engine(GODOT_CONFIG);
 		window.addEventListener('load', function() {
 		    // Create canvas
 		    var canvas = document.createElement('canvas');
@@ -158,7 +158,7 @@
 		    document.body.appendChild(canvas);
 		
 		    // Initialize the engine with GODOT_CONFIG
-		    var engine = new Engine(GODOT_CONFIG);
+		    //var engine = new Engine(GODOT_CONFIG);
 		
 		    // Preload the .wasm and .pck files using the defined paths
 		    Promise.all([
