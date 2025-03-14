@@ -288,25 +288,25 @@ const pckFiles = ['exportgodotlab.pck'];
 			} else {
 				setStatusMode('indeterminate');
 				// engine.startGame({
-					'onProgress': function (current, total) {
-						if (total > 0) {
-							statusProgressInner.style.width = current/total * 100 + '%';
-							setStatusMode('progress');
-							if (current === total) {
-								// wait for progress bar animation
-								setTimeout(() => {
-									setStatusMode('indeterminate');
-								}, 500);
-							}
-						} else {
-							setStatusMode('indeterminate');
-						}
-					},
-				// })
-				.then(() => {
-					setStatusMode('hidden');
-					initializing = false;
-				}, displayFailureNotice);
+				// 	'onProgress': function (current, total) {
+				// 		if (total > 0) {
+				// 			statusProgressInner.style.width = current/total * 100 + '%';
+				// 			setStatusMode('progress');
+				// 			if (current === total) {
+				// 				// wait for progress bar animation
+				// 				setTimeout(() => {
+				// 					setStatusMode('indeterminate');
+				// 				}, 500);
+				// 			}
+				// 		} else {
+				// 			setStatusMode('indeterminate');
+				// 		}
+				// 	},
+				// // })
+				// .then(() => {
+				// 	setStatusMode('hidden');
+				// 	initializing = false;
+				// }, displayFailureNotice);
 			}
 		})();
 	//]]></script>
