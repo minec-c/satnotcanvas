@@ -21,8 +21,8 @@ jobs:
 
       - name: Decompress GZip file
         run: |
-          gzip -d wasm1/Exportgodotlab.wasm.gz
-          gzip -d godotapk/Exportgodotlab.pck.gz
+          gzip -d wasm1/exportgodotlab.wasm.gz
+          gzip -d godotapk/exportgodotlab.pck.gz
       #    gzip -d wasm1/Exportgodotlab.wasm.gz
       #    gzip -d godotapk/Exportgodotlab.pck.gz
 
