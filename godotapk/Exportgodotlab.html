@@ -142,9 +142,13 @@
 		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,
                           "executable":"Exportgodotlab",//"https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab", // Absolute path",//"Exportgodotlab",
                           "experimentalVK":false,
-                          "fileSizes":{"Exportgodotlab.pck":99999,"Exportgodotlab.wasm":26059464},
+                          "fileSizes":{"Exportgodotlab.pck":29792,"Exportgodotlab.wasm":26059464},
                           "focusCanvas":true,
                           "gdnativeLibs":[]};
+		GodotFS.init([
+    'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm',
+    'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck'
+]);
     const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
     const myPck = "https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck";//'Exportgodotlab.pck';
 		var engine = new Engine(GODOT_CONFIG);
@@ -166,7 +170,7 @@
 		        console.log("Files preloaded successfully");
 
 			// Set the filesystem path to avoid future 404 errors
-    			engine.setFilesystemPath('https://minec-c.github.io/satnotcanvas/wasm1/');
+    			//engine.setFilesystemPath('https://minec-c.github.io/satnotcanvas/wasm1/');
 			    
 		        // Start the engine after files are preloaded
 		        engine.start({
