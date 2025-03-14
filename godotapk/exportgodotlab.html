@@ -184,10 +184,11 @@ const pckFiles = ['exportgodotlab.pck'];
 
 
 			Promise.all([
-			        engine.init({
-			            canvas: document.getElementById('canvas'),
-			            basePath: 'https://minec-c.github.io/satnotcanvas/'
-			        }),
+			        // engine.init({
+			        //     canvas: document.getElementById('canvas'),
+			        //     basePath: 'https://minec-c.github.io/satnotcanvas/'
+			        // }),
+				engine.init(wasmPath),
 			    ...wasmFiles.map(file => engine.preloadFile(`${wasmBasePath}${file}`, file)),  // Preload wasm files
 			    ...pckFiles.map(file => engine.preloadFile(`${pckBasePath}${file}`, file))     // Preload pck files
 					]).then(function() {
