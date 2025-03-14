@@ -1,0 +1,44 @@
+<script type='text/javascript'>
+    const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/exportgodotlab.wasm';
+    const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/exportgodotlab.pck';
+
+    const engine = new Engine({
+        canvasResizePolicy: 2,
+        executable: 'exportgodotlab',
+        experimentalVK: false,
+        fileSizes: { 'exportgodotlab.pck': 99999, 'exportgodotlab.wasm': 26059464 },
+        focusCanvas: true,
+        gdnativeLibs: [],
+        debug: true
+    });
+
+    window.addEventListener('load', () => {
+        // Create canvas dynamically
+        const canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        document.body.appendChild(canvas);
+
+        // Load and initialize engine + files
+        Promise.all([
+            engine.init(myWasm),
+            engine.preloadFile(myPck)
+        ])
+        .then(() => {
+            console.log('Files preloaded successfully');
+
+            return engine.start({
+                canvas: document.getElementById('canvas'),
+                args: ['--main-pack', myPck],
+                onProgress: (current, total) => {
+                    console.log(`Loading: ${current}/${total}`);
+                }
+            });
+        })
+        .then(() => {
+            console.log('Engine has started!');
+        })
+        .catch(err => {
+            console.error('Failed to start engine:', err);
+        });
+    });
+</script>
