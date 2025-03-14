@@ -302,7 +302,8 @@ const pckFiles = ['exportgodotlab.pck'];
 							setStatusMode('indeterminate');
 						}
 					},
-				}).then(() => {
+				// })
+				.then(() => {
 					setStatusMode('hidden');
 					initializing = false;
 				}, displayFailureNotice);
