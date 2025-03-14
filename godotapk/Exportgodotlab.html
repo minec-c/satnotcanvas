@@ -150,9 +150,14 @@
 //    'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck'	]);
     // const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
     // const myPck = "https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck";//'Exportgodotlab.pck';
-const wasmFiles = ['Exportgodotlab.wasm','Exportgodotlab.wasm'];
-const pckFiles = ['Exportgodotlab.pck','Exportgodotlab.pck'];
-		var engine = new Engine(GODOT_CONFIG);
+//const wasmFiles = ['Exportgodotlab.wasm','Exportgodotlab.wasm'];
+//const pckFiles = ['Exportgodotlab.pck','Exportgodotlab.pck'];
+const wasmBasePath = 'https://minec-c.github.io/satnotcanvas/wasm1/';
+const pckBasePath = 'https://minec-c.github.io/satnotcanvas/godotapk/';
+
+const wasmFiles = ['Exportgodotlab.wasm'];
+const pckFiles = ['Exportgodotlab.pck'];
+		//var engine = new Engine(GODOT_CONFIG);
 		window.addEventListener('load', function() {
 		    // Create canvas
 		    var canvas = document.createElement('canvas');
@@ -160,7 +165,7 @@ const pckFiles = ['Exportgodotlab.pck','Exportgodotlab.pck'];
 		    document.body.appendChild(canvas);
 		
 		    // Initialize the engine with GODOT_CONFIG
-		    engine = new Engine(GODOT_CONFIG);
+		  var  engine = new Engine(GODOT_CONFIG);
 		
 		    // Preload the .wasm and .pck files using the defined paths
 		    // Promise.all([
@@ -170,10 +175,16 @@ const pckFiles = ['Exportgodotlab.pck','Exportgodotlab.pck'];
 
 
 // Preload all the files
-Promise.all([
-    ...wasmFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/wasm1/${file}`, file)),
-    ...pckFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/godotapk/${file}`, file))
-		   ]).then(function() {
+// Promise.all([
+//     ...wasmFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/wasm1/${file}`, file)),
+//     ...pckFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/godotapk/${file}`, file))
+// 		   ])
+
+
+			Promise.all([
+			    ...wasmFiles.map(file => engine.preloadFile(`${wasmBasePath}${file}`, file)),  // Preload wasm files
+			    ...pckFiles.map(file => engine.preloadFile(`${pckBasePath}${file}`, file))     // Preload pck files
+					]).then(function() {
 		        console.log("Files preloaded successfully");
 
 			// Set the filesystem path to avoid future 404 errors
