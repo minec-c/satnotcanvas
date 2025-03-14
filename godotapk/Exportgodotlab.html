@@ -148,8 +148,10 @@
 //		GodotFS.init([
 //    'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm',
 //    'https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck'	]);
-    const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
-    const myPck = "https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck";//'Exportgodotlab.pck';
+    // const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/Exportgodotlab.wasm';
+    // const myPck = "https://minec-c.github.io/satnotcanvas/godotapk/Exportgodotlab.pck";//'Exportgodotlab.pck';
+const wasmFiles = ['Exportgodotlab.wasm','Exportgodotlab.wasm'];
+const pckFiles = ['Exportgodotlab.pck','Exportgodotlab.pck'];
 		var engine = new Engine(GODOT_CONFIG);
 		window.addEventListener('load', function() {
 		    // Create canvas
@@ -158,13 +160,21 @@
 		    document.body.appendChild(canvas);
 		
 		    // Initialize the engine with GODOT_CONFIG
-		    //var engine = new Engine(GODOT_CONFIG);
+		    engine = new Engine(GODOT_CONFIG);
 		
 		    // Preload the .wasm and .pck files using the defined paths
-		    Promise.all([
-		        engine.preloadFile(myWasm),
-		        engine.preloadFile(myPck)
-		    ])
+		    // Promise.all([
+		    //     engine.preloadFile(myWasm, wasm1/myWwasm),
+		    //     engine.preloadFile(myPck)
+		    // ])
+
+
+// Preload all the files
+Promise.all([
+    ...wasmFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/wasm1/${file}`, file)),
+    ...pckFiles.map(file => engine.preloadFile(`https://minec-c.github.io/satnotcanvas/godotapk/${file}`, file))
+
+			
 		    .then(function() {
 		        console.log("Files preloaded successfully");
 
