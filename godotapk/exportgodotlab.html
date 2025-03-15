@@ -1,0 +1,94 @@
+<script type="text/javascript">
+const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/exportgodotlab';
+const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/exportgodotlab.pck';
+
+const GODOT_CONFIG = {
+    "args": [],
+    "canvasResizePolicy": 2,
+    "executable": "exportgodotlab",
+    "experimentalVK": false,
+    "fileSizes": {
+        "exportgodotlab.pck": 29792,
+        "exportgodotlab.wasm": 26059464
+    },
+    "focusCanvas": true,
+    "gdnativeLibs": [],
+    "debug": true
+};
+
+var engine = new Engine(GODOT_CONFIG);
+var initializing = true;
+var statusMode = null;
+
+function setStatusMode(mode) {
+    if (statusMode === mode || !initializing) {
+        return;
+    }
+    [statusProgress, statusIndeterminate, statusNotice].forEach(function (elem) {
+        elem.style.display = 'none';
+    });
+    switch (mode) {
+        case 'progress':
+            statusProgress.style.display = 'block';
+            break;
+        case 'indeterminate':
+            statusIndeterminate.style.display = 'block';
+            break;
+        case 'notice':
+            statusNotice.style.display = 'block';
+            break;
+        case 'hidden':
+            break;
+        default:
+            throw new Error('Invalid status mode');
+    }
+    statusMode = mode;
+}
+
+function setProgress(percent) {
+    statusProgressInner.style.width = percent + '%';
+    setStatusMode('progress');
+}
+
+function displayFailureNotice(err) {
+    var msg = err.message || err;
+    console.error(msg);
+    setStatusNotice(msg);
+    setStatusMode('notice');
+    initializing = false;
+}
+
+if (!Engine.isWebGLAvailable()) {
+    displayFailureNotice('WebGL not available');
+} else {
+    setStatusMode('progress');
+
+    // ✅ Step 1: Track Initialization Progress
+    engine.init(myWasm).then(() => {
+        setProgress(30); // ~30% complete after init
+        console.log('Engine initialized');
+
+        // ✅ Step 2: Track Preloading Progress
+        return engine.preloadFile(myPck).then(() => {
+            setProgress(70); // ~70% complete after preloading
+            console.log('Files preloaded successfully');
+
+            // ✅ Step 3: Track StartGame Progress
+            return engine.startGame({
+                'onProgress': function (current, total) {
+                    if (total > 0) {
+                        let progress = 70 + (current / total) * 30; // remaining 30% for loading
+                        setProgress(progress);
+                    }
+                }
+            });
+        });
+    }).then(() => {
+        setProgress(100);
+        setTimeout(() => {
+            setStatusMode('hidden');
+            initializing = false;
+        }, 500);
+    }).catch(displayFailureNotice);
+}
+</script>
