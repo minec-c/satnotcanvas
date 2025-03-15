@@ -218,6 +218,7 @@
             }
 
             function displayFailureNotice(err) {
+                var msg = err.message || err;
                 console.error('Error:', err);
                 statusNotice.textContent = err.message || err;
                 setStatusMode('notice');
