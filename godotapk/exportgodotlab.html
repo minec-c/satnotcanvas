@@ -199,6 +199,30 @@ function setStatusMode(mode) {
     statusMode = mode;
 }
 
+
+                        function animateStatusIndeterminate(ms) {
+                                var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
+                                if (statusIndeterminate.children[i].style.borderTopColor == '') {
+                                        Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
+                                                child.style.borderTopColor = '';
+                                        });
+                                        statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
+                                }
+                        }
+
+                        function setStatusNotice(text) {
+                                while (statusNotice.lastChild) {
+                                        statusNotice.removeChild(statusNotice.lastChild);
+                                }
+                                var lines = text.split('\n');
+                                lines.forEach((line) => {
+                                        statusNotice.appendChild(document.createTextNode(line));
+                                        statusNotice.appendChild(document.createElement('br'));
+                                });
+                        };
+
+	
+	
 function setProgress(percent) {
     statusProgressInner.style.width = percent + '%';
     setStatusMode('progress');
