@@ -21,6 +21,98 @@ var initializing = true;
 var statusMode = null;
 
 function setStatusMode(mode) {
+    if (statusMode === mode || !initializing) return;
+    
+    [statusProgress, statusIndeterminate, statusNotice].forEach(function (elem) {
+        elem.style.display = 'none';
+    });
+    
+    if (mode === 'progress') {
+        statusProgress.style.display = 'block';
+    } else if (mode === 'indeterminate') {
+        statusIndeterminate.style.display = 'block';
+    } else if (mode === 'notice') {
+        statusNotice.style.display = 'block';
+    }
+    
+    statusMode = mode;
+}
+
+function setProgress(percent) {
+    statusProgressInner.style.width = percent + '%';
+    setStatusMode('progress');
+}
+
+function displayFailureNotice(err) {
+    console.error('Error:', err);
+    statusNotice.textContent = err.message || err;
+    setStatusMode('notice');
+    initializing = false;
+}
+
+if (!Engine.isWebGLAvailable()) {
+    displayFailureNotice('WebGL not available');
+} else {
+    setStatusMode('progress');
+
+    // ✅ Initialize + Preload using Promise.all
+    Promise.all([
+        engine.init(myWasm).then(() => {
+            console.log('Engine initialized');
+            setProgress(30); // ~30% after init
+        }),
+        engine.preloadFile(myPck).then(() => {
+            console.log('Files preloaded');
+            setProgress(70); // ~70% after preloading
+        })
+    ]).then(() => {
+        console.log('Files preloaded successfully');
+
+        // ✅ Start the engine and update progress during loading
+        return engine.start({
+            canvas: document.getElementById('canvas'),
+            args: ['--main-pack', myPck],
+            onProgress: function (current, total) {
+                if (total > 0) {
+                    let progress = 70 + (current / total) * 30; // Final 30% during loading
+                    setProgress(progress);
+                }
+            }
+        });
+    }).then(() => {
+        console.log('Engine has started!');
+        setProgress(100);
+        setTimeout(() => {
+            setStatusMode('hidden');
+            initializing = false;
+        }, 500);
+    }).catch(displayFailureNotice);
+}
+</script>
+
+<!-- <script type="text/javascript">
+const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/exportgodotlab';
+const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/exportgodotlab.pck';
+
+const GODOT_CONFIG = {
+    "args": [],
+    "canvasResizePolicy": 2,
+    "executable": "exportgodotlab",
+    "experimentalVK": false,
+    "fileSizes": {
+        "exportgodotlab.pck": 29792,
+        "exportgodotlab.wasm": 26059464
+    },
+    "focusCanvas": true,
+    "gdnativeLibs": [],
+    "debug": true
+};
+
+var engine = new Engine(GODOT_CONFIG);
+var initializing = true;
+var statusMode = null;
+
+function setStatusMode(mode) {
     if (statusMode === mode || !initializing) {
         return;
     }
@@ -92,3 +184,4 @@ if (!Engine.isWebGLAvailable()) {
     }).catch(displayFailureNotice);
 }
 </script>
+ -->
