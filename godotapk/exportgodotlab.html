@@ -233,40 +233,43 @@
 
     if (!Engine.isWebGLAvailable()) {
         displayFailureNotice('WebGL not available');
-    } else {
-        setStatusMode('indeterminate');
-	Promise.all([
-            engine.init(myWasm),
-            engine.preloadFile(myPck)
-        ]).then(function () {
-	    console.log('Files preloaded successfully');
-	            // return engine.start({
-	            //     canvas: document.getElementById('canvas'),
-	            //     args: ['--main-pack', myPck],
-	            //     onProgress: function (current, total) {
-	            //         console.log('Loading: ' + current + '/' + total);
-	            //     }
-	            // });
-	    return engine.startGame({
-                    'onProgress': function (current, total) {
-                        if (total > 0) {
-                            statusProgressInner.style.width = (current / total * 100) + '%';
-                            setStatusMode('progress');
-                            if (current === total) {
-                                // wait for progress bar animation
-                                setTimeout(function () {
-                                    setStatusMode('indeterminate');
-                                }, 500);
-                            }
-                        } else {
-                            setStatusMode('indeterminate');
-                        }
-                    }
-           }).then(function () {
-                    setStatusMode('hidden');
-                    initializing = false;
-           }, displayFailureNotice);
-    	})
-</script>
+    } 
+    else {
+	        setStatusMode('indeterminate');
+		Promise.all([
+	            engine.init(myWasm),
+	            engine.preloadFile(myPck)
+	        ]).then(function () { 
+			console.log('Files preloaded successfully');
+		            // return engine.start({
+		            //     canvas: document.getElementById('canvas'),
+		            //     args: ['--main-pack', myPck],
+		            //     onProgress: function (current, total) {
+		            //         console.log('Loading: ' + current + '/' + total);
+		            //     }
+		            // });
+		    	return engine.startGame({
+	                    'onProgress': function (current, total) {
+	                        if (total > 0) {
+	                            statusProgressInner.style.width = (current / total * 100) + '%';
+	                            setStatusMode('progress');
+	                            if (current === total) {
+	                                // wait for progress bar animation
+	                                setTimeout(function () {
+	                                    setStatusMode('indeterminate');
+	                                }, 500);
+	                            }
+	                        } else {
+	                            setStatusMode('indeterminate');
+	                        }
+	                    }
+	         	  }).then(function () {
+	                 	   setStatusMode('hidden');
+	                	    initializing = false;
+	        	 	  }, displayFailureNotice
+			   );
+    		})
+  	  }
+	</script>
     </body>
 </html>
