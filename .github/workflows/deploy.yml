@@ -22,7 +22,8 @@ jobs:
       - name: Decompress GZip file
         run: |
           gzip -d wasm1/exportgodotlab.wasm.gz
-          gzip -d https://raw.githubusercontent.com/minec-c/satnotcanvas/satnotcanvas2/exportgodotlab.pck # godotapk/exportgodotlab.pck.gz
+          gzip -d https://raw.githubusercontent.com/minec-c/satnotcanvas/satnotcanvas2/exportgodotlab.pck 
+      #  godotapk/exportgodotlab.pck.gz
       #    gzip -d wasm1/Exportgodotlab.wasm.gz
       #    gzip -d godotapk/Exportgodotlab.pck.gz
 
