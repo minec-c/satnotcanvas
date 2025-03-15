@@ -134,24 +134,10 @@
     <script type="text/javascript">
         const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/exportgodotlab';
         const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/exportgodotlab.pck';
-
-        const GODOT_CONFIG = {
-            "args": [],
-            "canvasResizePolicy": 2,
-            "executable": "exportgodotlab",
-            "experimentalVK": false,
-            "fileSizes": {
-                "exportgodotlab.pck": 29792,
-                "exportgodotlab.wasm": 26059464
-            },
-            "focusCanvas": true,
-            "gdnativeLibs": [],
-            "debug": true
-        };
-
+        const GODOT_CONFIG = {"args": [],"canvasResizePolicy": 2,"executable": "exportgodotlab","experimentalVK": false,"fileSizes": {"exportgodotlab.pck": 29792,"exportgodotlab.wasm": 26059464},"focusCanvas": true,"gdnativeLibs": [],"debug": true};
         var engine = new Engine(GODOT_CONFIG);
-        var initializing = true;
-        var statusMode = null;
+
+        // var statusMode = null;
 
         (function() {
             const INDETERMINATE_STATUS_STEP_MS = 100;
@@ -160,6 +146,7 @@
             var statusIndeterminate = document.getElementById('status-indeterminate');
             var statusNotice = document.getElementById('status-notice');
 
+            var initializing = true;
             var statusMode = 'hidden';
 
             var animationCallbacks = [];
