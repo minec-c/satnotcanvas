@@ -162,16 +162,33 @@
                 [statusProgress, statusIndeterminate, statusNotice].forEach(function(elem) {
                     elem.style.display = 'none';
                 });
-
-                if (mode === 'progress') {
-                    statusProgress.style.display = 'block';
-                } else if (mode === 'indeterminate') {
-                    statusIndeterminate.style.display = 'block';
-                } else if (mode === 'notice') {
-                    statusNotice.style.display = 'block';
+                switch (mode) {
+                        case 'progress':
+                                statusProgress.style.display = 'block';
+                                break;
+                        case 'indeterminate':
+                                statusIndeterminate.style.display = 'block';
+                                animationCallbacks.push(animateStatusIndeterminate);
+                                break;
+                        case 'notice':
+                                statusNotice.style.display = 'block';
+                                break;
+                        case 'hidden':
+                                break;
+                        default:
+                                throw new Error('Invalid status mode');
                 }
-
                 statusMode = mode;
+            }
+                // if (mode === 'progress') {
+                //     statusProgress.style.display = 'block';
+                // } else if (mode === 'indeterminate') {
+                //     statusIndeterminate.style.display = 'block';
+                // } else if (mode === 'notice') {
+                //     statusNotice.style.display = 'block';
+                // }
+
+                // statusMode = mode;
             }
 
             function animateStatusIndeterminate(ms) {
