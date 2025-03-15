@@ -132,8 +132,8 @@
 
     <script type="text/javascript" src="exportgodotlab.js"></script>
     <script type="text/javascript">
-        const myWasm = 'https://minec-c.github.io/satnotcanvas2/wasm1/exportgodotlab';
-        const myPck = 'https://minec-c.github.io/satnotcanvas2/godotapk/exportgodotlab.pck';
+        const myWasm = 'https://minec-c.github.io/satnotcanvas/wasm1/exportgodotlab';
+        const myPck = 'https://minec-c.github.io/satnotcanvas/godotapk/exportgodotlab.pck';
         const GODOT_CONFIG = {"args": [],"canvasResizePolicy": 2,"executable": "exportgodotlab","experimentalVK": false,"fileSizes": {"exportgodotlab.pck": 29792,"exportgodotlab.wasm": 26059464},"focusCanvas": true,"gdnativeLibs": [],"debug": true};
         var engine = new Engine(GODOT_CONFIG);
 
@@ -240,7 +240,7 @@
                         setProgress(30); // ~30% after init
                     }),
                     engine.preloadFile(myPck).then(() => {
-                        console.log('Files preloaded');
+                        console.log('Files preloaded, oh yeah');
                         setProgress(70); // ~70% after preloading
                     })
                 ]).then(() => {
