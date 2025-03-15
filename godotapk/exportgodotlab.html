@@ -162,6 +162,25 @@ var engine = new Engine(GODOT_CONFIG);
 var initializing = true;
 var statusMode = null;
 
+
+(function() {
+	const INDETERMINATE_STATUS_STEP_MS = 100;
+	var statusProgress = document.getElementById('status-progress');
+	var statusProgressInner = document.getElementById('status-progress-inner');
+	var statusIndeterminate = document.getElementById('status-indeterminate');
+	var statusNotice = document.getElementById('status-notice');
+
+	var initializing = true;
+	var statusMode = 'hidden';
+
+	var animationCallbacks = [];
+	function animate(time) {
+		animationCallbacks.forEach(callback => callback(time));
+		requestAnimationFrame(animate);
+	}
+	requestAnimationFrame(animate);
+
+	
 function setStatusMode(mode) {
     if (statusMode === mode || !initializing) return;
     
