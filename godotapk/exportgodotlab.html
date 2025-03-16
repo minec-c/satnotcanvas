@@ -216,7 +216,8 @@
                 Promise.all([
                     engine.init(myWasm),
                     engine.preloadFile(myPck)
-                ]).then(() => {console.log('Files preloaded successfully');
+                ]).
+		then(() => {console.log('Files preloaded successfully');
                     // Start the engine and update progress during loading
                     return engine.start({
                         canvas: document.getElementById('canvas'),
@@ -233,12 +234,13 @@
 						}
 					} else { setStatusMode('indeterminate');
 						}
-					},
-				}).then(() => { setStatusMode('hidden');
+				},
+		      }).then(() => { setStatusMode('hidden');
 					initializing = false;
 				}, displayFailureNotice);
-			}
-		})();
+		)};	
+	   }
+	})();
     </script>
 </body>
 </html>
