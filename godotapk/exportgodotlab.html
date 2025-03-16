@@ -209,38 +209,36 @@
 			};
 			if (!Engine.isWebGLAvailable()) {
 				displayFailureNotice('WebGL not available');
+            		} 
+		    else {       setStatusMode('indeterminate');
+		                // Initialize + Preload using Promise.all
+		                Promise.all([ engine.init(myWasm),engine.preloadFile(myPck)
+		                ]).
+				then(() => {console.log('Files preloaded successfully');
+		                    // Start the engine and update progress during loading
+		                    return engine.start({
+				                        canvas: document.getElementById('canvas'),
+				                        args: ['--main-pack', myPck],
+								'onProgress': function (current, total) {
+									if (total > 0) {
+										statusProgressInner.style.width = current/total * 100 + '%';
+										setStatusMode('progress');
+										if (current === total) {
+											// wait for progress bar animation
+											setTimeout(() => {
+											setStatusMode('indeterminate');
+											}, 500);
+										}
+									} else { setStatusMode('indeterminate');
+										}
+								},
+				      }).then(() => { setStatusMode('hidden'); initializing = false;}, displayFailureNotice
+					     );
+					   })}
+				}
+				   				    
+			
 
-            } else {
-                setStatusMode('indeterminate');
-                // Initialize + Preload using Promise.all
-                Promise.all([
-                    engine.init(myWasm),
-                    engine.preloadFile(myPck)
-                ]).
-		then(() => {console.log('Files preloaded successfully');
-                    // Start the engine and update progress during loading
-                    return engine.start({
-                        canvas: document.getElementById('canvas'),
-                        args: ['--main-pack', myPck],
-				'onProgress': function (current, total) {
-					if (total > 0) {
-					statusProgressInner.style.width = current/total * 100 + '%';
-					setStatusMode('progress');
-						if (current === total) {
-							// wait for progress bar animation
-							setTimeout(() => {
-							setStatusMode('indeterminate');
-							}, 500);
-						}
-					} else { setStatusMode('indeterminate');
-						}
-				},
-		      }).then(() => { setStatusMode('hidden');
-					initializing = false;
-				}, displayFailureNotice);
-		)};	
-	   }
-	})();
     </script>
 </body>
 </html>
