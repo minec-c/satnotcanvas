@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+# This came first: WASM then PCK
+      - name: Decompress .wasm file
+        run: |
+          gzip -d wasm1/exportgodotlab.wasm.gz
 
       - name: Checkout satnotcanvas2 branch
         uses: actions/checkout@v4
@@ -23,9 +27,9 @@ jobs:
           ref: satnotcanvas2
           path: satnotcanvas2_branch
 
-      - name: Decompress .wasm file
-        run: |
-          gzip -d wasm1/exportgodotlab.wasm.gz
+      # - name: Decompress .wasm file
+        # run: |
+          # gzip -d wasm1/exportgodotlab.wasm.gz
 
       - name: Download and decompress .pck file
         run: |
