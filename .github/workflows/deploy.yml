@@ -33,9 +33,9 @@ jobs:
           gzip -d exportgodotlab.pck.gz
           mv exportgodotlab.pck satnotcanvas2_branch/godotapk/exportgodotlab.pck
 
-      - name: Move wasm file
-        run: |
-          mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
+    #  - name: Move wasm file
+    #    run: |
+    #      mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
