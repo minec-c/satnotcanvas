@@ -21,7 +21,7 @@ jobs:
           gzip -d wasm1/exportgodotlab.wasm.gz
       - name: Move wasm file
         run: |
-          mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/wasm1/exportgodotlab.wasm
+          mv wasm1/exportgodotlab.wasm satnotcanvas/wasm1/exportgodotlab.wasm
         # mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
          
 
@@ -40,7 +40,7 @@ jobs:
         run: |
           curl -L https://raw.githubusercontent.com/minec-c/satnotcanvas/satnotcanvas2/godotapk/exportgodotlab.pck.gz -o exportgodotlab.pck.gz
           gzip -d exportgodotlab.pck.gz
-          mv exportgodotlab.pck satnotcanvas2_branch/godotapk/exportgodotlab.pck
+          mv exportgodotlab.pck satnotcanvas/godotapk/exportgodotlab.pck
 
 
 
