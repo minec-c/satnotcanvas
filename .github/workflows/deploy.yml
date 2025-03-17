@@ -20,21 +20,29 @@ jobs:
 
       - name: Download and decompress .pck file directly
         run: |
-          gzip -d exportgodotlab.pck.gz || { echo "Decompression failed ❌"; exit 1; }
-
-          if [ -f exportgodotlab.pck ]; then
-            echo "PCK file decompressed ✅"
+          gzip -d exportgodotlab.wasm.gz || { echo "Decompression failed ❌"; exit 1; }
+          if [ -f exportgodotlab.wasm ]; then
+            echo "WASM file decompressed ✅"
           else
-            echo "PCK file NOT decompressed ❌"
+            echo "WASM file NOT decompressed ❌"
             exit 1
           fi
-
+          
           curl -L https://raw.githubusercontent.com/minec-c/satnotcanvas/satnotcanvas2/godotapk/exportgodotlab.pck.gz -o exportgodotlab.pck.gz
 
           if [ -f exportgodotlab.pck.gz ]; then
             echo "PCK file downloaded ✅"
           else
             echo "PCK file NOT downloaded ❌"
+            exit 1
+          fi
+
+
+          gzip -d exportgodotlab.pck.gz || { echo "Decompression failed ❌"; exit 1; }
+          if [ -f exportgodotlab.pck ]; then
+            echo "PCK file decompressed ✅"
+          else
+            echo "PCK file NOT decompressed ❌"
             exit 1
           fi
 
