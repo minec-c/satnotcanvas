@@ -19,10 +19,10 @@ jobs:
       - name: Decompress .wasm file
         run: |
           gzip -d wasm1/exportgodotlab.wasm.gz
-      - name: Move wasm file
-        run: |
-          mv wasm1/exportgodotlab.wasm satnotcanvas/wasm1/exportgodotlab.wasm
-        # mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
+      # - name: Move wasm file
+      #   run: |
+      #     mv wasm1/exportgodotlab.wasm satnotcanvas/wasm1/exportgodotlab.wasm
+      #   # mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
          
 
       - name: Checkout satnotcanvas2 branch
