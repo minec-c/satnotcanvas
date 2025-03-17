@@ -19,6 +19,9 @@ jobs:
       - name: Decompress .wasm file
         run: |
           gzip -d wasm1/exportgodotlab.wasm.gz
+      - name: Move wasm file
+        run: |
+         mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
 
       - name: Checkout satnotcanvas2 branch
         uses: actions/checkout@v4
@@ -37,9 +40,7 @@ jobs:
           gzip -d exportgodotlab.pck.gz
           mv exportgodotlab.pck satnotcanvas2_branch/godotapk/exportgodotlab.pck
 
-    #  - name: Move wasm file
-    #    run: |
-    #      mv wasm1/exportgodotlab.wasm satnotcanvas2_branch/exportgodotlab.wasm
+
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
