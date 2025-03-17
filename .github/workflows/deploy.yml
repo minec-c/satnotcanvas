@@ -30,7 +30,7 @@ jobs:
         with:
           repository: minec-c/satnotcanvas
           ref: satnotcanvas2
-          path: satnotcanvas2_branch
+          path: satnotcanvas
 
       # - name: Decompress .wasm file
         # run: |
