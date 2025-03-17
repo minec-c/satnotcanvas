@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Decompress .wasm file
+        run: |
+          gzip -d wasm1/exportgodotlab.wasm.gz
+
+      - name: Checkout satnotcanvas2 branch into a separate folder
+        uses: actions/checkout@v4
+        with:
+          ref: satnotcanvas2
+          path: satnotcanvas2
+          fetch-depth: 0
+
+      - name: Debug File Structure (List contents of satnotcanvas2)
+        run: |
+          echo "Listing satnotcanvas2 directory:"
+          ls -R satnotcanvas2 || echo "Directory not found!"
+
+      - name: Check if .pck file exists
+        run: |
+          if [ -f satnotcanvas2/godotapk/exportgodotlab.pck ]; then
+            echo "PCK file found ✅"
+          else
+            echo "PCK file NOT found ❌"
+            exit 1
+          fi
+
+      - name: Move .pck file to main branch working directory
+        run: |
+          mkdir -p godotapk
+          mv satnotcanvas2/godotapk/exportgodotlab.pck godotapk/exportgodotlab.pck
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: . 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
