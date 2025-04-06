@@ -23,7 +23,9 @@ jobs:
      # ✅ Check if WASM file exists and decompress it
       - name: Decompress .wasm file
         run: |
-          if [ -f wasm1/exportgodotlab.wasm.gz ]; then
+          curl -L https://raw.githubusercontent.com/minec-c/satnotcanvasxz/wasm1/exportgodotlab.wasm.gz -o exportgodotlab.wasm.gz
+          
+          if [ -f exportgodotlab.wasm.gz ]; then
             echo "WASM file found ✅"
             gzip -d wasm1/exportgodotlab.wasm.gz || { echo "Decompression failed ❌"; exit 1; }
           else
